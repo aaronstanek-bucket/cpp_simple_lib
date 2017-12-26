@@ -2,7 +2,6 @@
 #define __SLICE_INCLUDED__
 
 #include <iostream>
-#include "signed_modulus.h"
 
 using namespace std;
 
@@ -16,8 +15,24 @@ template <class A, class B> void slice(A & inp, B & oup, long long start, long l
     oup.resize(0);
     return;
   }
-  start = signed_modulus(start,a_size);
-  end = signed_modulus(end,a_size);
+  if (start>=a_size) {
+    start = a_size-1;
+  }
+  else if (start<0) {
+    start = start+a_size;
+    if (start<0) {
+      start = 0;
+    }
+  }
+  if (end>=a_size) {
+    end = a_size-1;
+  }
+  else if (end<0) {
+    end = end+a_size;
+    if (end<0) {
+      end = 0;
+    }
+  }
   // now find how much space to allocate
   long long diff = end-start;
   // if iter and diff have different signs, we are done
