@@ -133,23 +133,20 @@ template <class T> bool set::set<T>::has(T & v) {
 }
 
 template <class T> void set::set<T>::resize(unsigned long long new_size) {
-  fs_vec<T> hold;
-  hold.setup(count);
-  unsigned long long i = 0;
+  set<T> tiny;
+  tiny.data.setup(new_size);
+  tiny.data_size = new_size;
+  tiny.hash_function = hash_function;
   element<T> * q;
   for (unsigned long long r=0;r<data_size;r++) {
     q = (data.at(r))->poi;
     while (q!=NULL) {
-      *(hold.at(i)) = q->value;
-      i += 1;
+      tiny.insert(q->value);
       q = q->nex;
     }
   }
-  data.setup(new_size);
+  tiny.data.move_to(data);
   data_size = new_size;
-  for (i=0;i<count;i++) {
-    insert(hold.at(i));
-  }
 }
 
 template <class T> void set::set<T>::rehash(unsigned long long (*hf)(T&)) {
