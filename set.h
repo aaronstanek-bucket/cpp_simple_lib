@@ -2,6 +2,7 @@
 #define __SET_INCLUDED__
 
 #include <cstdlib>
+#include <vector>
 #include "fs_vec.h"
 
 using namespace std;
@@ -43,6 +44,7 @@ namespace set {
       bool has(T & v);
       void add(T & v);
       void rm(T & v);
+      void to_vector(vector<T> & oth);
   };
 
 }
@@ -187,6 +189,19 @@ template <class T> void set::set<T>::rm(T & v) {
       if (data_size>6) {
         resize((data_size+1)/2);
       }
+    }
+  }
+}
+
+template <class T> void set::set<T>::to_vector(vector<T> & oth) {
+  unsigned long long i = 0;
+  oth.resize(count);
+  element<T> * q;
+  for (unsigned long long r=0;r<data_size;r++) {
+    q = (data.at(r))->poi;
+    while (q!=NULL) {
+      oth[i] = q->value;
+      q = q->nex;
     }
   }
 }
