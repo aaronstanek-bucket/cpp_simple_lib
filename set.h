@@ -140,9 +140,7 @@ template <class T> bool set::set<T>::has(T & v) {
 }
 
 template <class T> void set::set<T>::resize(unsigned long long new_size) {
-  set<T> tiny;
-  tiny.data.setup(new_size);
-  tiny.data_size = new_size;
+  set<T> tiny(new_size);
   tiny.hash_function = hash_function;
   element<T> * q;
   for (unsigned long long r=0;r<data_size;r++) {
