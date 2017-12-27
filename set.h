@@ -152,7 +152,8 @@ template <class T> void set::set<T>::resize(unsigned long long new_size) {
   tiny.hash_function = hash_function;
   element<T> * q;
   for (unsigned long long r=0;r<data_size;r++) {
-    q = (data.at(r))->poi;
+    q = (data.at(r))->poi
+    (data.at(r))->poi = NULL;
     while (q!=NULL) {
       tiny.add_pointer(v);
       q = q->nex;
