@@ -51,7 +51,7 @@ template <class T> T * fs_vec<T>::at(unsigned long long index) {
   return data+index;
 }
 
-template <class T> void fs_vec::move_to(fs_vec<T> * oth) {
+template <class T> void fs_vec<T>::move_to(fs_vec<T> * oth) {
   oth->clear();
   (oth->data) = data;
   data = NULL;
