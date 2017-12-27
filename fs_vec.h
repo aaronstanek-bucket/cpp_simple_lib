@@ -15,6 +15,7 @@ template <class T> class fs_vec{
     void clear();
     bool is_def();
     T * at(unsigned long long index);
+    void move_to(fs_vec<T> * oth);
 };
 
 //template functions
@@ -48,6 +49,12 @@ template <class T> bool fs_vec<T>::is_def() {
 
 template <class T> T * fs_vec<T>::at(unsigned long long index) {
   return data+index;
+}
+
+template <class T> void fs_vec::move_to(fs_vec<T> * oth) {
+  oth->clear();
+  (oth->data) = data;
+  data = NULL;
 }
 
 #endif
