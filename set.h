@@ -32,6 +32,7 @@ namespace set {
       unsigned long long data_size;
       unsigned long long count;
       unsigned long long (*hash_function)(T&);
+      void add_pointer(element<T> * v);
       void resize(unsigned long long new_size);
       bool insert(T & v);
       bool remove(T & v);
@@ -139,6 +140,12 @@ template <class T> set::set<T>::set(unsigned long long siz) {
 template <class T> bool set::set<T>::has(T & v) {
   unsigned long long spot = hash_function(v) % data_size;
   return (data.at(spot))->has(v);
+}
+
+template <class T> void set::set<T>::add_pointer(element<T> * v) {
+  unsigned long long spot = hash_function(v) % data_size;
+  (v->nex) = (data.at(spot))->poi;
+  (data.at(spot))->poi = v;
 }
 
 template <class T> void set::set<T>::resize(unsigned long long new_size) {
