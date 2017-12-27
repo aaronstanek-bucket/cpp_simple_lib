@@ -34,8 +34,6 @@ namespace set {
       unsigned long long (*hash_function)(T&);
       void add_pointer(element<T> * v);
       void resize(unsigned long long new_size);
-      bool insert(T & v);
-      bool remove(T & v);
     public:
       set();
       set(unsigned long long (*hf)(T&));
@@ -144,8 +142,9 @@ template <class T> bool set::set<T>::has(T & v) {
 
 template <class T> void set::set<T>::add_pointer(element<T> * v) {
   unsigned long long spot = hash_function(v) % data_size;
-  (v->nex) = (data.at(spot))->poi;
-  (data.at(spot))->poi = v;
+  root<T> * rp = data.at(spot);
+  (v->nex) = rp->poi;
+  rp->poi = v;
 }
 
 template <class T> void set::set<T>::resize(unsigned long long new_size) {
@@ -155,7 +154,7 @@ template <class T> void set::set<T>::resize(unsigned long long new_size) {
   for (unsigned long long r=0;r<data_size;r++) {
     q = (data.at(r))->poi;
     while (q!=NULL) {
-      tiny.insert(q->value);
+      tiny.add_pointer(v);
       q = q->nex;
     }
   }
@@ -170,18 +169,9 @@ template <class T> void set::set<T>::rehash(unsigned long long (*hf)(T&)) {
   }
 }
 
-template <class T> bool set::set<T>::insert(T & v) {
-  unsigned long long spot = hash_function(v) % data_size;
-  return (data.at(spot))->add(v);
-}
-
-template <class T> bool set::set<T>::remove(T & v) {
-  unsigned long long spot = hash_function(v) % data_size;
-  return (data.at(spot))->rm(v);
-}
-
 template <class T> void set::set<T>::add(T & v) {
-  if (insert(v)) {
+  unsigned long long spot = hash_function(v) % data_size;
+  if ((data.at(spot))->add(v)) {
     count += 1;
     if (count>=(data_size*2)/3) {
       resize((data_size*2)-1);
@@ -190,7 +180,8 @@ template <class T> void set::set<T>::add(T & v) {
 }
 
 template <class T> void set::set<T>::rm(T & v) {
-  if (remove(v)) {
+  unsigned long long spot = hash_function(v) % data_size;
+  if ((data.at(spot))->rm(v)) {
     count -= 1;
     if (count<=data_size/4) {
       if (data_size>6) {
