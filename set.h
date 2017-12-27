@@ -37,6 +37,7 @@ namespace set {
     public:
       set();
       set(unsigned long long (*hf)(T&));
+      set(unsigned long long siz);
       // don't need to write destructor
       void rehash(unsigned long long (*hf)(T&));
       bool has(T & v);
@@ -125,6 +126,12 @@ template <class T> set::set<T>::set(unsigned long long (*hf)(T&)) {
   data_size = 5;
   count = 0;
   hash_function = hf;
+}
+
+template <class T> set::set<T>::set(unsigned long long siz) {
+  data.setup(siz);
+  data_size = siz;
+  count = 0;
 }
 
 template <class T> bool set::set<T>::has(T & v) {
